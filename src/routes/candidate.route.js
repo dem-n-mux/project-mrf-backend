@@ -5,6 +5,7 @@ import {
   addCandidate,
   fetchSingleCandidate,
   getCandidatesList,
+  updateCandidateStage,
 } from "../controllers/candidate.controller.js";
 
 const router = Router();
@@ -13,5 +14,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.post("/", upload.any(), addCandidate);
 router.get("/", isLoggedIn, getCandidatesList);
 router.get("/:id", isLoggedIn, fetchSingleCandidate);
+
+router.patch("/update-stage/:id", isLoggedIn, updateCandidateStage);
 
 export default router;

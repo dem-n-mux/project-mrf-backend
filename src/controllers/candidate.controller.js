@@ -93,3 +93,34 @@ export const fetchSingleCandidate = async (req, res) => {
     });
   }
 };
+
+export const updateCandidateStage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const candidate = await Candidate.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!candidate) {
+      return res.status(400).json({
+        success: false,
+        message: "Candidate not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: candidate,
+    });
+  } catch (error) {
+    console.error("Error updating candidate stage:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

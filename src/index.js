@@ -4,22 +4,28 @@ import "dotenv/config";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import candidateRoutes from "./routes/candidate.route.js";
+import formRoutes from "./routes/form.route.js";
+import settingsRoutes from "./routes/settings.route.js";
 import { connectDB } from "./config/db.js";
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:5173"
-}))
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/candidates', candidateRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/candidates", candidateRoutes);
+app.use("/api/form", formRoutes);
+app.use("/api/settings", settingsRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
 connectDB().then(() => {
