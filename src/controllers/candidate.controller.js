@@ -57,7 +57,10 @@ export const getCandidatesList = async (req, res) => {
   try {
     const candidates = await Candidate.find({})
       .sort({ createdAt: -1 })
-      .select("_id fullname status createdAt photo email employeeCode");
+      .select(
+        "_id fullname status createdAt photo email employeeCode updatedAt modifiedBy"
+      )
+      .populate("modifiedBy", "fullname email");
     res.status(200).json({
       success: true,
       data: candidates,
@@ -99,9 +102,11 @@ export const updateCandidateStage = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
+    const user = req.user;
+
     const candidate = await Candidate.findByIdAndUpdate(
       id,
-      { status },
+      { status, modifiedBy: user.id },
       { new: true }
     );
 

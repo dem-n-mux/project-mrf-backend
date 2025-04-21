@@ -6,6 +6,10 @@ const candidateSchema = new mongoose.Schema({
     enum: ["new", "approved", "rejected"],
     default: "new",
   },
+  modifiedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   fullname: {
     type: String,
     required: true,
