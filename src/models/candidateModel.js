@@ -109,6 +109,11 @@ const candidateSchema = new mongoose.Schema({
   fatherPhoto: {
     type: String,
   },
+  fatherALStatus: {
+    type: String,
+    enum: ["alive", "late"],
+    default: "alive",
+  },
   motherName: {
     type: String,
   },
@@ -117,6 +122,11 @@ const candidateSchema = new mongoose.Schema({
   },
   motherPhoto: {
     type: String,
+  },
+  motherALStatus: {
+    type: String,
+    enum: ["alive", "late"],
+    default: "alive",
   },
   spouseName: {
     type: String,
@@ -144,6 +154,9 @@ const candidateSchema = new mongoose.Schema({
     type: String,
   },
   twelfthCertificate: {
+    type: String,
+  },
+  otherCertificate: {
     type: String,
   },
   gradCertificate: {
