@@ -57,9 +57,6 @@ export const getCandidatesList = async (req, res) => {
   try {
     const candidates = await Candidate.find({})
       .sort({ createdAt: -1 })
-      .select(
-        "_id fullname status createdAt photo email employeeCode updatedAt modifiedBy"
-      )
       .populate("modifiedBy", "fullname email");
     res.status(200).json({
       success: true,
