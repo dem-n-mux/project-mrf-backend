@@ -1,4 +1,5 @@
 import Candidate from "../models/candidateModel.js";
+import LEAD from "../models/leadModel.js";
 import { uploadToS3 } from "../utils/awsUtils.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -38,6 +39,17 @@ export const addCandidate = async (req, res) => {
     };
 
     const candidate = new Candidate(candidateData);
+
+    const existingLead = await LEAD.findOne({
+      email: candidateData.email,
+    });
+
+    if (existingLead) {
+      await LEAD.findByIdAndUpdate(existingLead._id, {
+        status: "completed",
+      });
+    }
+
     await candidate.save();
 
     res.status(201).json({

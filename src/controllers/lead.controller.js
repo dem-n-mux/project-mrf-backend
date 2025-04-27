@@ -2,6 +2,7 @@ import LEAD from "../models/leadModel.js";
 import USER from "../models/userModel.js";
 import csv from "csvtojson";
 import fs from "fs";
+import { sendEmail } from "../utils/emailer.js";
 
 export const getLeads = async (req, res) => {
   try {
@@ -33,7 +34,7 @@ export const getLeads = async (req, res) => {
   }
 };
 
-export const addLead = async (req, res) => { 
+export const addLead = async (req, res) => {
   try {
     const { fullname, employeeCode, email, phone } = req.body;
     const user = req.user;
@@ -57,6 +58,18 @@ export const addLead = async (req, res) => {
       addedBy: userObj._id,
     });
 
+    const emailSubject = "You have been invited to fill out a form";
+    const formLink =
+      process.env.CORS_ORIGIN +
+      "/apply-form?fullname=" +
+      fullname.split(" ").join("_") +
+      "&email=" +
+      email +
+      "&employeecode=" +
+      employeeCode;
+    const emailBody = `Hello ${fullname},\n\nYou have been invited to fill out a form. Please click the link below to access it:\n\n${formLink}\n\nBest regards,\nProject MRF Team`;
+    await sendEmail(email, emailSubject, emailBody);
+
     await newLead.save();
 
     return res.status(201).json({
@@ -67,7 +80,7 @@ export const addLead = async (req, res) => {
     console.error("Error adding lead:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 export const uploadLeadsFromCSV = async (req, res) => {
   try {
@@ -100,6 +113,20 @@ export const uploadLeadsFromCSV = async (req, res) => {
       addedBy: userObj._id,
     }));
 
+    for (const lead of leadsToInsert) {
+      const emailSubject = "You have been invited to fill out a form";
+      const formLink =
+        process.env.CORS_ORIGIN +
+        "/apply-form?fullname=" +
+        lead.fullname.split(" ").join("_") +
+        "&email=" +
+        lead.email +
+        "&employeecode=" +
+        lead.employeeCode;
+      const emailBody = `Hello ${lead.fullname},\n\nYou have been invited to fill out a form. Please click the link below to access it:\n\n${formLink}\n\nBest regards,\nProject MRF Team`;
+      await sendEmail(lead.email, emailSubject, emailBody);
+    }
+
     await LEAD.insertMany(leadsToInsert);
 
     fs.unlinkSync(filePath);
@@ -113,4 +140,3 @@ export const uploadLeadsFromCSV = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
