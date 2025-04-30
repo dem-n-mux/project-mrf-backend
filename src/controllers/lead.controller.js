@@ -66,7 +66,9 @@ export const addLead = async (req, res) => {
       "&email=" +
       email +
       "&employeecode=" +
-      employeeCode;
+      employeeCode +
+      "&phone=" +
+      phone;
     const emailBody = `Hello ${fullname},\n\nYou have been invited to fill out a form. Please click the link below to access it:\n\n${formLink}\n\nBest regards,\nProject MRF Team`;
     await sendEmail(email, emailSubject, emailBody);
 
