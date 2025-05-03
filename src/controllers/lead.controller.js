@@ -69,7 +69,7 @@ export const addLead = async (req, res) => {
       employeeCode +
       "&phone=" +
       phone;
-    const emailBody = `Hello ${fullname},\n\nYou have been invited to fill out a form. Please click the link below to access it:\n\n${formLink}\n\nBest regards,\nProject MRF Team`;
+    const emailBody = `Dear ${fullname},\n\nAs a mandate of documents and details requirement of an employee for employment and compliance, we have observed that your details are not filled completely. We request your immediate attention and action for your smooth employment continuation.\n\nKindly fill in the correct details as per documents and upload the same within 24 hrs. Failure may cause action under employment terms and conditions.\n\nWe hope you will ensure the compliances by 100%.\n\n${formLink}\n\nRegards,\nTeam TechSmart`;
     await sendEmail(email, emailSubject, emailBody);
 
     await newLead.save();
@@ -125,7 +125,7 @@ export const uploadLeadsFromCSV = async (req, res) => {
         lead.email +
         "&employeecode=" +
         lead.employeeCode;
-      const emailBody = `Hello ${lead.fullname},\n\nYou have been invited to fill out a form. Please click the link below to access it:\n\n${formLink}\n\nBest regards,\nProject MRF Team`;
+      const emailBody = `Dear ${fullname},\n\nAs a mandate of documents and details requirement of an employee for employment and compliance, we have observed that your details are not filled completely. We request your immediate attention and action for your smooth employment continuation.\n\nKindly fill in the correct details as per documents and upload the same within 24 hrs. Failure may cause action under employment terms and conditions.\n\nWe hope you will ensure the compliances by 100%.\n\n${formLink}\n\nRegards,\nTeam TechSmart`;
       await sendEmail(lead.email, emailSubject, emailBody);
     }
 

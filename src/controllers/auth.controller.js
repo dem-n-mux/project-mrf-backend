@@ -62,7 +62,7 @@ export const registerUser = async (req, res) => {
       Math.floor(1000 + Math.random() * 9000);
 
     const emailSubject = "Welcome to Our Service";
-    const emailBody = `Hello ${fullname},\n\nYour account has been created successfully.\n\nYour Username is: ${username}\n\nYour password is: ${password}\n\nBest regards,\nProject MRF Team`;
+    const emailBody = `Hello ${fullname},\n\nYour account has been created successfully.\n\nYour Username is: ${username}\n\nYour password is: ${password}\n\nBest regards,\nTeam TechSmart`;
     await sendEmail(email, emailSubject, emailBody);
 
     const hashedPassword = await bcrypt.hash(password, 10);
